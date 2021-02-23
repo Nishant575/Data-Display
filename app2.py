@@ -30,7 +30,7 @@ def insert():
         data_file.close()
         data_file = open("data.txt",'r')
         for val in data_file.readlines():
-            if id in val.split():
+            if id in val.split("->"):
                 k = 1
                 break
         data_file.close()
@@ -48,7 +48,7 @@ def insert():
 
             data_file.close()
             data_file = open("data.txt",'a')
-            str1 = str(srno)+" "+id+" "+name+" "+sp+ " " +qty+ "\n"
+            str1 = str(srno)+"->"+id+"->"+name+"->"+sp+ "->" +qty+ "\n"
             data_file.write(str1)
             inp_id.delete(0, 'end')
             inp_name.delete(0, 'end')
@@ -68,7 +68,7 @@ def display():
         messagebox.showerror("Data not found", "No data to show")
     else:
         for val in lines:
-            prd_list.insert(parent='',index='end',iid=count, text='', values=val.split())
+            prd_list.insert(parent='',index='end',iid=count, text='', values=val.split("->"))
             count+=1
 
 # --Function to close the application
