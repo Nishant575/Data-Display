@@ -14,6 +14,7 @@ p_id = StringVar()
 p_sp = StringVar()
 p_qty = StringVar()
 
+
 # --Function to insert data in file--
 def insert():
     name = nm.get()
@@ -29,7 +30,7 @@ def insert():
         data_file.close()
         data_file = open("data.txt",'r')
         for val in data_file.readlines():
-            if id in val:
+            if id in val.split():
                 k = 1
                 break
         data_file.close()
@@ -38,11 +39,11 @@ def insert():
             inp_id.delete(0, 'end')
         else:
             data_file = open("data.txt","r")
-            if len(data_file.readlines()) == 0:
+            lines = data_file.read().splitlines()
+            if len(lines) == 0:
                 srno = 1
             else :
-                lines = data_file.read().splitlines()
-                last_line = lines[0]
+                last_line = lines[-1]
                 srno = int(last_line[0]) + 1
 
             data_file.close()
@@ -59,12 +60,16 @@ def insert():
 # --Function to display data--
 def display():
     prd_list.delete(*prd_list.get_children())
+    global count
+    count = 0
     data_file = open("data.txt","r")
-    if len(data_file.readlines()) == 0:
+    lines = data_file.read().splitlines()
+    if len(lines) == 0:
         messagebox.showerror("Data not found", "No data to show")
     else:
-        for val in data_file.readlines():
-            prd_list.insert('','end', values = ("1" , "1234" , "mobile" , "10000" , "1"))
+        for val in lines:
+            prd_list.insert(parent='',index='end',iid=count, text='', values=val.split())
+            count+=1
 
 # --Function to close the application
 def close():
@@ -78,25 +83,25 @@ f1.pack(fill = Y , expand = False , side = LEFT)
 label_id = Label(f1, font=( 'aria' ,12 ),text="Product Id : ",fg="Black")
 label_id.place(x=0 , y=0)
 
-inp_id = Entry(f1,font=( 'aria' ,12, ),bg="LightYellow",width=15,textvar=p_id)
+inp_id = Entry(f1,font=( 'aria' ,12 ),width=15,textvar=p_id)
 inp_id.place(x=0 , y=35)
 
 label_name = Label(f1, font=( 'aria' ,12 ),text="Product Name : ",fg="Black")
 label_name.place(x=0 , y= 70)
 
-inp_name = Entry(f1,font=( 'aria' ,12, ),bg="LightYellow",width=15,textvar=nm)
+inp_name = Entry(f1,font=( 'aria' ,12, ),width=15,textvar=nm)
 inp_name.place(x=0 , y= 105)
 
 label_sp = Label(f1, font=( 'aria' ,12 ),text="Selling Price : ",fg="Black")
 label_sp.place(x=0 , y= 140)
 
-inp_sp = Entry(f1,font=( 'aria' ,12, ),bg="LightYellow",width=15,textvar=p_sp)
+inp_sp = Entry(f1,font=( 'aria' ,12, ),width=15,textvar=p_sp)
 inp_sp.place(x=0 , y= 175)
 
 label_qty = Label(f1, font=( 'aria' ,12 ),text="Quantity : ",fg="Black")
 label_qty.place(x=0 , y = 215)
 
-inp_qty = Entry(f1,font=( 'aria' ,12, ),bg="LightYellow",width=15,textvar=p_qty)
+inp_qty = Entry(f1,font=( 'aria' ,12, ),width=15,textvar=p_qty)
 inp_qty.place(x=0 , y = 250)
 
 btn_insert = Button(f1,text="Insert",width=10, command = insert)
@@ -116,13 +121,24 @@ prd_list = ttk.Treeview(f2 , selectmode ='browse' , columns = (1,2,3,4,5) , show
 prd_list.pack(side = TOP , fill = BOTH , expand = True)
 style = ttk.Style()
 style.configure("Treeview.Heading", font=(None, 12))
-style.configure("Treeview", background = "Light blue")
+style.configure("Treeview",
+                background = '#f5f8da',
+                rowheight = 35
+                )
 
-prd_list.heading("1", text ="Item no.")
-prd_list.heading("2", text ="Product ID")
-prd_list.heading("3", text ="Name")
-prd_list.heading("4", text ="Selling Price")
-prd_list.heading("5", text ="Quantity")
+style.map("Treeview", background = [('selected' , 'Green')])
+
+prd_list.column("1", anchor = CENTER , width = 50)
+prd_list.column("2", anchor = CENTER)
+prd_list.column("3", anchor = CENTER)
+prd_list.column("4", anchor = CENTER)
+prd_list.column("5", anchor = CENTER , width = 75)
+
+prd_list.heading("1", text ="Item no.", anchor = CENTER)
+prd_list.heading("2", text ="Product ID", anchor = CENTER)
+prd_list.heading("3", text ="Name", anchor = CENTER)
+prd_list.heading("4", text ="Selling Price", anchor = CENTER)
+prd_list.heading("5", text ="Quantity", anchor = CENTER)
 
 
 wind.mainloop()
