@@ -25,6 +25,10 @@ def insert():
 
     if name == "" or id == "" or sp == "" or qty == "":
         messagebox.showerror("Error", "Please enter valid info")
+        
+    elif id.upper().isupper() or sp.upper().isupper() or qty.upper().isupper():
+        messagebox.showerror("Error", "Please enter numeric value")
+
     else :
         data_file = open("data.txt",'a') #creates file if not present
         data_file.close()
@@ -44,6 +48,7 @@ def insert():
                 srno = 1
             else :
                 last_line = lines[-1]
+                last_line = last_line.split("->")
                 srno = int(last_line[0]) + 1
 
             data_file.close()
@@ -123,7 +128,7 @@ style = ttk.Style()
 style.configure("Treeview.Heading", font=(None, 12))
 style.configure("Treeview",
                 background = '#f5f8da',
-                rowheight = 35
+                rowheight = 30
                 )
 
 style.map("Treeview", background = [('selected' , 'Green')])
