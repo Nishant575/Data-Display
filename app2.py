@@ -128,7 +128,7 @@ style = ttk.Style()
 style.configure("Treeview.Heading", font=(None, 12))
 style.configure("Treeview",
                 background = '#f5f8da',
-                rowheight = 30
+                rowheight = 35
                 )
 
 style.map("Treeview", background = [('selected' , 'Green')])
