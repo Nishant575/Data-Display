@@ -25,7 +25,7 @@ def insert():
 
     if name == "" or id == "" or sp == "" or qty == "":
         messagebox.showerror("Error", "Please enter valid info")
-        
+
     elif id.upper().isupper() or sp.upper().isupper() or qty.upper().isupper():
         messagebox.showerror("Error", "Please enter numeric value")
 
@@ -34,7 +34,8 @@ def insert():
         data_file.close()
         data_file = open("data.txt",'r')
         for val in data_file.readlines():
-            if id in val.split("->"):
+            val = val.split("->")
+            if id == val[1]:
                 k = 1
                 break
         data_file.close()
